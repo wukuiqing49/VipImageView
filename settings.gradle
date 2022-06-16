@@ -1,0 +1,3 @@
+include ':lib_vip'
+include ':app'
+rootProject.name = "VipImageView"
