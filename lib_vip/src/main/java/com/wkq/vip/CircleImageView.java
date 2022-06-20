@@ -38,7 +38,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 
-
+/**
+ * 圆形图
+ */
 public class CircleImageView extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
@@ -65,10 +67,12 @@ public class CircleImageView extends ImageView {
 
     private Bitmap mBitmap;
     private BitmapShader mBitmapShader;
+    //填充图的宽高
     private int mBitmapWidth;
     private int mBitmapHeight;
-
+    //圆形半径
     private float mDrawableRadius;
+    //边框圆形半径
     private float mBorderRadius;
 
     private ColorFilter mColorFilter;
@@ -92,8 +96,9 @@ public class CircleImageView extends ImageView {
         super(context, attrs, defStyle);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
-
+        // 边框宽度
         mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_civ_border_width, DEFAULT_BORDER_WIDTH);
+        //边框颜色
         mBorderColor = a.getColor(R.styleable.CircleImageView_civ_border_color, DEFAULT_BORDER_COLOR);
         mBorderOverlay = a.getBoolean(R.styleable.CircleImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY);
         mFillColor = a.getColor(R.styleable.CircleImageView_civ_fill_color, DEFAULT_FILL_COLOR);
@@ -104,6 +109,7 @@ public class CircleImageView extends ImageView {
     }
 
     private void init() {
+        //填充模式
         super.setScaleType(SCALE_TYPE);
         mReady = true;
 
@@ -377,6 +383,7 @@ public class CircleImageView extends ImageView {
         mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
         mBitmapPaint.setAntiAlias(true);
+        //着色器
         mBitmapPaint.setShader(mBitmapShader);
 
         mBorderPaint.setStyle(Paint.Style.STROKE);
