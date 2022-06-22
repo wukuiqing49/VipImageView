@@ -37,11 +37,12 @@ import android.widget.ImageView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * 圆形图
  */
-public class CircleImageView extends ImageView {
+public class CircleImageView extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -127,14 +128,16 @@ public class CircleImageView extends ImageView {
     @Override
     public void setScaleType(ScaleType scaleType) {
         if (scaleType != SCALE_TYPE) {
-            throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
+            //仅仅支持 CENTER_CROP 的填充模式
+            return;
         }
     }
 
     @Override
     public void setAdjustViewBounds(boolean adjustViewBounds) {
         if (adjustViewBounds) {
-            throw new IllegalArgumentException("adjustViewBounds not supported.");
+            //仅仅支持 CENTER_CROP 的填充模式
+            return;
         }
     }
 

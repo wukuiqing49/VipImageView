@@ -1,18 +1,22 @@
 package com.wkq.vip;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 
-public class IdentityImageView extends ViewGroup {
+
+public class VipImageView extends ViewGroup {
     private Context mContext;
     private CircleImageView bigImageView;//大圆
     private CircleImageView smallImageView;//小圆
@@ -35,15 +39,15 @@ public class IdentityImageView extends ViewGroup {
     private int setborderColor = 0;//动态设置边框颜色值
     private int totalwidth;
 
-    public IdentityImageView(Context context) {
+    public VipImageView(Context context) {
         this(context, null);
     }
 
-    public IdentityImageView(Context context, AttributeSet attrs) {
+    public VipImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IdentityImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public VipImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         setWillNotDraw(false);//是的ondraw方法被执行
@@ -105,7 +109,11 @@ public class IdentityImageView extends ViewGroup {
         canvas.drawCircle(totalwidth / 2, totalwidth / 2, radius - borderWidth / 2, mBorderPaint);
     }
 
-    //画圆弧进度条
+    /**
+     * 画圆弧进度条
+     *
+     * @param canvas
+     */
     private void drawProgress(Canvas canvas) {
         RectF rectf = new RectF(smallRadius + borderWidth / 2, smallRadius + borderWidth / 2, getWidth() - smallRadius - borderWidth / 2, getHeight() - smallRadius - borderWidth / 2);
         //定义的圆弧的形状和大小的范围,之所以减去圆弧的一半，是因为画圆环的高度时，
@@ -114,6 +122,9 @@ public class IdentityImageView extends ViewGroup {
 
     }
 
+    /**
+     * 初始化
+     */
     private void initPaint() {
         if (mBorderPaint == null) {
             mBorderPaint = new Paint();
@@ -122,7 +133,7 @@ public class IdentityImageView extends ViewGroup {
         }
         if (setborderColor != 0) {
             mBorderPaint.setColor(getResources().getColor(setborderColor));
-        }else {
+        } else {
             mBorderPaint.setColor(borderColor);
         }
         mBorderPaint.setStrokeWidth(borderWidth);
@@ -143,8 +154,6 @@ public class IdentityImageView extends ViewGroup {
     @Override
     protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
         //重点在于smallImageView的位置确定,默认为放在右下角，可自行拓展至其他位置
-
-
         double cos = Math.cos(angle * Math.PI / 180);
         double sin = Math.sin(angle * Math.PI / 180);
         double left = totalwidth / 2 + (radius * cos - smallRadius);
@@ -187,8 +196,6 @@ public class IdentityImageView extends ViewGroup {
 
 
     }
-
-
     private void initAttrs(AttributeSet attrs) {
         TypedArray tta = mContext.obtainStyledAttributes(attrs, R.styleable.IdentityImageView);
 //        TintTypedArray tta = TintTypedArray.obtainStyledAttributes(getContext(), attrs, R.styleable.IdentityImageView);
@@ -214,7 +221,6 @@ public class IdentityImageView extends ViewGroup {
         }
 
     }
-
     /**
      * 获得textview
      *
@@ -225,6 +231,18 @@ public class IdentityImageView extends ViewGroup {
         else return null;
     }
 
+    public void setTextColor( int color) {
+        if (textView != null)
+            textView.setTextColor(getResources().getColor(color));
+    }
+    /**
+     * 设置文字
+     * @param textContent
+     */
+    public void setText(String textContent) {
+        if (textView != null && !TextUtils.isEmpty(textContent))
+            textView.setText(textContent);
+    }
     /**
      * 获得大图片
      *
@@ -234,7 +252,6 @@ public class IdentityImageView extends ViewGroup {
         if (bigImageView != null) return bigImageView;
         else return null;
     }
-
     /**
      * 获得小图片
      *
@@ -271,7 +288,6 @@ public class IdentityImageView extends ViewGroup {
         requestLayout();
         invalidate();
     }
-
     /**
      * 设置标识的大小
      *
@@ -282,22 +298,18 @@ public class IdentityImageView extends ViewGroup {
         radiusScale = v;
         requestLayout();
         invalidate();
-
     }
-
     /**
      * 设置是否可以有进度条
      *
      * @param b 是否有进度条
      */
     public void setIsprogress(boolean b) {
-
         if (b == isprogress) return;
         isprogress = b;
         requestLayout();
         invalidate();
     }
-
     /**
      * 设置填充的颜色
      *
@@ -322,7 +334,6 @@ public class IdentityImageView extends ViewGroup {
         requestLayout();
         invalidate();
     }
-
     /**
      * @param width 边框和进度条宽度
      */
